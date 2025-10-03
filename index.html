@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLIMATO - Modern Weather & Climate App</title>
+    <meta name="description" content="CLIMATO - Your modern weather and climate companion. Get accurate weather forecasts and climate data for any location worldwide.">
+    
+    <!-- Favicon to prevent 404 error -->
+    <link rel="icon" href="Logo.png" type="image/png">
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="app-branding">
+                        <img src="Logo.png" alt="CLIMATO Logo" class="app-logo">
+                        <div class="brand-text">
+                            <h1 class="app-title">CLIMATO</h1>
+                            <p class="app-tagline">Weather & Climate</p>
+                        </div>
+                    </div>
+                    <div class="header-controls">
+                        <button class="btn btn--secondary btn--sm" id="unitToggle">
+                            <span id="unitText">°C</span>
+                        </button>
+                        <button class="btn btn--secondary btn--sm" id="locationBtn" title="Get current location">
+                            <i class="fas fa-location-dot"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Search Section -->
+                <section class="search-section">
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="search-input"
+                                    placeholder="Search for any city or location..."
+                                    autocomplete="off"
+                                    aria-label="Search for a city"
+                                >
+                                <button class="clear-btn" id="clearBtn" aria-label="Clear search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn--primary search-btn" id="searchBtn">
+                                <i class="fas fa-search"></i>
+                                <span>Search</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Searches -->
+                <section class="recent-searches" id="recentSearches">
+                    <h3>Recent Searches</h3>
+                    <div class="recent-chips" id="recentChips">
+                        <!-- Recent search chips will be populated here -->
+                    </div>
+                </section>
+
+                <!-- Weather Display Section -->
+                <section class="weather-section">
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loadingState">
+                        <div class="loading-content">
+                            <div class="loading-spinner">
+                                <div class="spinner"></div>
+                            </div>
+                            <h3>Getting weather data...</h3>
+                            <p>Please wait while we fetch the latest information</p>
+                        </div>
+                    </div>
+
+                    <!-- Error State -->
+                    <div class="error-state" id="errorState">
+                        <div class="error-content">
+                            <div class="error-icon">
+                                <i class="fas fa-cloud-exclamation"></i>
+                            </div>
+                            <h3>Oops! Something went wrong</h3>
+                            <p id="errorMessage">Unable to fetch weather data. Please try again.</p>
+                            <button class="btn btn--primary" id="retryBtn">
+                                <i class="fas fa-refresh"></i>
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Current Weather -->
+                    <div class="current-weather" id="currentWeather">
+                        <div class="weather-card-header">
+                            <div class="weather-location">
+                                <h2 id="weatherCity">San Francisco</h2>
+                                <p class="last-updated" id="lastUpdated">Last updated: Just now</p>
+                            </div>
+                            <div class="weather-status">
+                                <span class="status status--success">
+                                    <i class="fas fa-check-circle"></i>
+                                    Live Data
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="current-weather-main">
+                            <div class="temperature-section">
+                                <div class="temperature-display">
+                                    <span class="temperature" id="currentTemp">22°</span>
+                                    <div class="temp-details">
+                                        <span class="feels-like">Feels like <span id="feelsLike">24°</span></span>
+                                        <div class="temp-range">
+                                            <i class="fas fa-arrow-up temp-arrow-up"></i>
+                                            <span id="tempHigh">26°</span>
+                                            <i class="fas fa-arrow-down temp-arrow-down"></i>
+                                            <span id="tempLow">18°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="weather-visual">
+                                <div class="weather-icon-container">
+                                    <span class="weather-emoji" id="weatherIcon">⛅</span>
+                                    <div class="weather-animation"></div>
+                                </div>
+                                <p class="weather-condition" id="weatherCondition">Partly Cloudy</p>
+                            </div>
+                        </div>
+
+                        <!-- Weather Details Grid -->
+                        <div class="weather-details">
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-droplet"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Humidity</span>
+                                    <span class="detail-value" id="humidity">65%</span>
+                                    <div class="detail-progress">
+                                        <div class="progress-bar" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Wind Speed</span>
+                                    <span class="detail-value" id="windSpeed">15 km/h</span>
+                                    <span class="detail-subtext">Light breeze</span>
+                                </div>
+                            </div>
+
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Visibility</span>
+                                    <span class="detail-value" id="visibility">10 km</span>
+                                    <span class="detail-subtext">Excellent</span>
+                                </div>
+                            </div>
+
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-gauge-high"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Pressure</span>
+                                    <span class="detail-value" id="pressure">1013 hPa</span>
+                                    <span class="detail-subtext">Normal</span>
+                                </div>
+                            </div>
+
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">UV Index</span>
+                                    <span class="detail-value" id="uvIndex">6</span>
+                                    <span class="detail-subtext">High</span>
+                                </div>
+                            </div>
+
+                            <div class="weather-detail-card">
+                                <div class="detail-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Dew Point</span>
+                                    <span class="detail-value" id="dewPoint">16°</span>
+                                    <span class="detail-subtext">Comfortable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5-Day Forecast -->
+                    <div class="forecast-section" id="forecastSection">
+                        <div class="forecast-header">
+                            <h3 class="forecast-title">
+                                <i class="fas fa-calendar-days"></i>
+                                5-Day Forecast
+                            </h3>
+                            <p class="forecast-subtitle">Detailed weather predictions for the week ahead</p>
+                        </div>
+                        <div class="forecast-container">
+                            <div class="forecast-cards" id="forecastCards">
+                                <!-- Forecast cards will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-branding">
+                        <img src="Logo.png" alt="CLIMATO" class="footer-logo">
+                        <span>CLIMATO</span>
+                    </div>
+                    <p>&copy; 2024 CLIMATO. Powered by advanced weather technology.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
